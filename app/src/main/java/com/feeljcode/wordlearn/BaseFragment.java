@@ -102,31 +102,28 @@ public class BaseFragment extends Fragment {
                         public void run() {
 
                             try{
-                                Response checkIsGenerate = HttpUtils.post(ApiDocUtils.synGenerate,null);
+                                String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
 
-                                String isSynGenerate = checkIsGenerate.body().string();
-
-                                if(null == isSynGenerate || "".equals(isSynGenerate)){
+                                if(null == saa || "".equals(saa)){
 
                                     return;
                                 }else {
 
-                                    Response flag = HttpUtils.post(ApiDocUtils.GenerateMemoryWord,null);
+                                    String sadfsf =  HttpUtils.post(ApiDocUtils.GenerateMemoryWord,null);
 
-                                    if(flag.body().string() != "0"){
-                                        Log.e("errer",flag.message());
+                                    if(sadfsf != "0"){
+                                        Log.e("errer",sadfsf);
                                     }
 
 
                                 }
 
-                                Response response = HttpUtils.get(ApiDocUtils.getTodayMemoryWord,null);
+                                String sadfasasdf = HttpUtils.get(ApiDocUtils.getTodayMemoryWord,null);
 
-                                String todayData = response.body().string();
 
-                                if(null == todayData || "".equals(todayData)){
+                                if(null == sadfasasdf || "".equals(sadfasasdf)){
 
-                                    List<WordItem> wordItems = JSON.parseArray(todayData, WordItem.class);
+                                    List<WordItem> wordItems = JSON.parseArray(sadfasasdf, WordItem.class);
 
                                     DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
 

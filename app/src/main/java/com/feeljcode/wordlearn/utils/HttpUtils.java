@@ -27,7 +27,7 @@ import okhttp3.Response;
 public class HttpUtils {
 
 
-    public static Response get(String api,Map<String,String> param){
+    public static String get(String api,Map<String,String> param){
         OkHttpClient okHttpClient = new OkHttpClient();
 
         Request.Builder reqBuild = new Request.Builder();
@@ -47,7 +47,7 @@ public class HttpUtils {
         Call call = okHttpClient.newCall(request);
         try{
             Response response = call.execute();
-            return response;
+            return response.body().string();
         }catch (Exception ex){
             ex.getStackTrace();
         }
@@ -55,7 +55,7 @@ public class HttpUtils {
     }
 
 
-    public static Response post(String api, Map<String,String> param){
+    public static String post(String api, Map<String,String> param){
 
         OkHttpClient okHttpClient = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
@@ -75,7 +75,7 @@ public class HttpUtils {
         Call call = okHttpClient.newCall(request);
         try{
             Response response = call.execute();
-            return response;
+            return response.body().string();
         }catch (Exception ex){
             ex.getStackTrace();
         }
