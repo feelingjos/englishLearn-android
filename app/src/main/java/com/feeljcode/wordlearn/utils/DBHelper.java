@@ -13,7 +13,13 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        String initdb = "CREATE TABLE \"memoryrule\" (\n" +
+        String memoryTagdb = "CREATE TABLE \"memory_generate_tag\" (\n" +
+                "  \"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                "  \"today_ganerate\" integer\n" +
+                ");";
+
+        //单词主表
+        String memoryruledb = "CREATE TABLE \"memoryrule\" (\n" +
                 "  \"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
                 "  \"word\" varchar,\n" +
                 "  \"phoneticsymbol\" varchar,\n" +
@@ -21,7 +27,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "  \"translate\" varchar\n" +
                 ");";
 
-        sqLiteDatabase.execSQL(initdb);
+        sqLiteDatabase.execSQL(memoryruledb);
+        sqLiteDatabase.execSQL(memoryTagdb);
 
     }
 

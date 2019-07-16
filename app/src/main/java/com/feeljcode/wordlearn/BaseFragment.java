@@ -100,11 +100,12 @@ public class BaseFragment extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-
                             try{
                                 String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
 
                                 if(null == saa || "".equals(saa)){
+
+
 
                                     return;
                                 }else {
