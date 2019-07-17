@@ -17,6 +17,6 @@ public class ApiDocUtils {
     public  static  final String getTodayMemoryWord = "/getMemoryWord";
 
     //执行生成日期语句
-    public static  final String GenerateMemoryWord = "/generateMemoryWord";
+    public static  final String generateMemoryWord = "/generateMemoryWord";
 
 }

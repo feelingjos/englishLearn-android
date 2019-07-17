@@ -103,18 +103,25 @@ public class BaseFragment extends Fragment {
                             try{
                                 String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
 
+                                //未生成
                                 if(null == saa || "".equals(saa)){
 
+                                    //执行接口生成
+                                    String post = HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
+
+                                    //获取数据
+
+                                    String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
 
-                                    return;
+
                                 }else {
 
-                                    String sadfsf =  HttpUtils.post(ApiDocUtils.GenerateMemoryWord,null);
+                                    /*String sadfsf =  HttpUtils.post(ApiDocUtils.GenerateMemoryWord,null);
 
                                     if(sadfsf != "0"){
                                         Log.e("errer",sadfsf);
-                                    }
+                                    }*/
 
 
                                 }
