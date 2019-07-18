@@ -24,6 +24,7 @@ import com.feeljcode.wordlearn.entity.WordItem;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DBHelper;
 import com.feeljcode.wordlearn.utils.DBVersion;
+import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -102,72 +103,15 @@ public class BaseFragment extends Fragment {
                         public void run() {
                             try{
                                 String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
-
                                 //未生成
                                 if(null == saa || "".equals(saa)){
-
                                     //执行接口生成
-                                    String post = HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
-
-                                    //获取数据
-
-                                    String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
-
-
-
-                                }else {
-
-                                    /*String sadfsf =  HttpUtils.post(ApiDocUtils.GenerateMemoryWord,null);
-
-                                    if(sadfsf != "0"){
-                                        Log.e("errer",sadfsf);
-                                    }*/
-
-
+                                    HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
                                 }
+                                //获取数据
+                                String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
-                                String sadfasasdf = HttpUtils.get(ApiDocUtils.getTodayMemoryWord,null);
-
-
-                                if(null == sadfasasdf || "".equals(sadfasasdf)){
-
-                                    List<WordItem> wordItems = JSON.parseArray(sadfasasdf, WordItem.class);
-
-                                    DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
-
-                                    SQLiteDatabase sQLiteDatabase = dbHelper.getReadableDatabase();
-
-                                    try{
-                                        //开启事务
-                                        sQLiteDatabase.beginTransaction();
-
-                                        for (WordItem wordItem : wordItems) {
-                                            ContentValues contentValues = new ContentValues();
-
-                                            contentValues.put("phoneticsymbol",wordItem.getPhoneticSymbol());
-                                            contentValues.put("translate",wordItem.getTranslate());
-                                            contentValues.put("type",wordItem.getType());
-                                            contentValues.put("word",wordItem.getWord());
-
-                                            sQLiteDatabase.insert("memory_word","null",contentValues);
-
-                                        }
-
-                                        //提交事务
-                                        sQLiteDatabase.setTransactionSuccessful();
-
-                                        sQLiteDatabase.close();
-                                    }catch (Exception ex){
-                                        ex.getStackTrace();
-                                    }finally {
-                                        if(sQLiteDatabase != null){
-                                            sQLiteDatabase.endTransaction();
-                                            sQLiteDatabase.close();
-                                        }
-                                    }
-                                }
-
-
+                                DataOperation.isMemoryWord(context,data);
                             }catch (Exception ex){
                                 ex.getStackTrace();
                             }
@@ -182,39 +126,6 @@ public class BaseFragment extends Fragment {
             for (int i =0; i<10000 ; i ++ ){
                 list.add(i+"+aaa");
             }
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    /*DBHelper dbHelper=new DBHelper(context,10);
-                    SQLiteDatabase sQLiteDatabase = dbHelper.getReadableDatabase();
-
-                    Cursor cursor=sQLiteDatabase.query("test",new String[] {"id","name"},null,null,null,null,null);
-
-                    Integer count = cursor.getCount();
-
-                    Calendar calendar=Calendar.getInstance();
-                    calendar.setTime(new Date());
-
-                    Long inttime= calendar.getTime().getTime();
-                    Log.e("Times----------",inttime.toString());
-
-                    while(cursor.moveToNext()){
-
-                        Integer id = cursor.getInt(0);
-
-                        String name = cursor.getString(1);
-
-                        Log.e("id-----------",id.toString());
-                        Log.e("name---------",name);
-
-                    }
-                    cursor.close();
-                    sQLiteDatabase.close();
-                    dbHelper.close();*/
-
-                }
-            }).start();
 
             ArrayAdapter<String> adapter =new ArrayAdapter<String>(context,R.layout.item_word,list);
 
