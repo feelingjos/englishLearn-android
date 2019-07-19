@@ -1,52 +1,32 @@
 package com.feeljcode.wordlearn;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.util.TypeUtils;
-import com.feeljcode.wordlearn.entity.WordItem;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
-import com.feeljcode.wordlearn.utils.DBHelper;
-import com.feeljcode.wordlearn.utils.DBVersion;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.apache.http.params.CoreConnectionPNames;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.BufferedSink;
 
 
 /**
@@ -91,34 +71,31 @@ public class BaseFragment extends Fragment {
         if(title.equals("新闻")){
             View view = inflater.inflate(R.layout.word_home,null);
 
+            //列表展示
             ListView listView = (ListView) view.findViewById(R.id.word_list);
 
-            view.findViewById(R.id.synGernate).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            //同步按钮
+            Button synGenrnate = (Button) view.findViewById(R.id.synGernate);
 
-                    //请求
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try{
-                                String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
-                                //未生成
-                                if(null == saa || "".equals(saa)){
-                                    //执行接口生成
-                                    HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
-                                }
-                                //获取数据
-                                String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
+            synGenrnate.setOnClickListener(button -> {
 
-                                DataOperation.isMemoryWord(context,data);
-                            }catch (Exception ex){
-                                ex.getStackTrace();
-                            }
+                new Thread(() ->{
+                    try{
+                        String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
+                        //未生成
+                        if(null == saa || "".equals(saa)){
+                            //执行接口生成
+                            HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
                         }
-                    }).start();
+                        //获取数据
+                        String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
-                }
+                        DataOperation.isMemoryWord(context,data);
+                    }catch (Exception ex){
+                        ex.getStackTrace();
+                    }
+                }).start();
+
             });
 
             List<String> list=new ArrayList<>();
@@ -126,6 +103,12 @@ public class BaseFragment extends Fragment {
             for (int i =0; i<10000 ; i ++ ){
                 list.add(i+"+aaa");
             }
+
+            new Thread(()->{
+
+
+
+            }).start();
 
             ArrayAdapter<String> adapter =new ArrayAdapter<String>(context,R.layout.item_word,list);
 

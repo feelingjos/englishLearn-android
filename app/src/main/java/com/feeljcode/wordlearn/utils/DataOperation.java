@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.alibaba.fastjson.JSON;
 import com.feeljcode.wordlearn.entity.WordItem;
 
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**
@@ -17,20 +16,19 @@ import java.util.List;
  */
 public class DataOperation {
 
+    /**
+     * 保存远程请求过来用背的单词
+     * @param context
+     * @param data
+     */
     public static void isMemoryWord(Context context,String data){
-
         DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
-
         SQLiteDatabase sQLiteDatabase = null;
-
         List<WordItem> wordItems = JSON.parseArray(data, WordItem.class);
-
         try{
-
             sQLiteDatabase = dbHelper.getReadableDatabase();
             //开启事务
             sQLiteDatabase.beginTransaction();
-
             for (WordItem wordItem : wordItems) {
                 ContentValues contentValues = new ContentValues();
 
@@ -54,7 +52,26 @@ public class DataOperation {
                 sQLiteDatabase.close();
             }
         }
+    }
 
+    /**
+     * 查询今天要背的单词
+     * @return
+     */
+    public List<WordItem> getToDayWord(Context context){
+
+        DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
+        SQLiteDatabase sQLiteDatabase = null;
+
+        try{
+
+
+
+        }catch (Exception ex){
+            ex.getStackTrace();
+        }
+
+        return null;
     }
 
 }
