@@ -22,7 +22,7 @@ public class WordAdapter extends BaseAdapter {
     private List<WordItem> data;
     private Context context;
 
-    public WordAdapter(Context context) {
+    public WordAdapter(Context context,List<WordItem> data) {
         this.data = data;
         this.context = context;
     }

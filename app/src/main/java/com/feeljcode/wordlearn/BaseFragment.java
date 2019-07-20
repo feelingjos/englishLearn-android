@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.feeljcode.wordlearn.adapter.WordAdapter;
+import com.feeljcode.wordlearn.entity.WordItem;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
@@ -98,21 +99,15 @@ public class BaseFragment extends Fragment {
 
             });
 
-            List<String> list=new ArrayList<>();
+            WordAdapter adapter = new WordAdapter(context,new ArrayList<WordItem>());
 
-            for (int i =0; i<10000 ; i ++ ){
-                list.add(i+"+aaa");
-            }
+            listView.setAdapter(adapter);
 
             new Thread(()->{
 
-
+                List<WordItem> toDayWord = DataOperation.getToDayWord(context);
 
             }).start();
-
-            ArrayAdapter<String> adapter =new ArrayAdapter<String>(context,R.layout.item_word,list);
-
-            listView.setAdapter(adapter);
 
             return view;
         }else{
