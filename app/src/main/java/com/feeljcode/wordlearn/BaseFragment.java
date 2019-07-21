@@ -107,6 +107,10 @@ public class BaseFragment extends Fragment {
 
                 List<WordItem> toDayWord = DataOperation.getToDayWord(context);
 
+                WordAdapter Newadapter = new WordAdapter(context,toDayWord);
+
+                listView.setAdapter(Newadapter);
+
             }).start();
 
             return view;
