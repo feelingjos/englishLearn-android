@@ -67,7 +67,7 @@ public class DataOperation {
 
         try{
             sQLiteDatabase = dbHelper.getReadableDatabase();
-            Cursor cursor = sQLiteDatabase.query("person", null, null, null, null, null, null);
+            Cursor cursor = sQLiteDatabase.query("memoryrule", null, null, null, null, null, null);
             //cursor = database.query("person", null, "_id=?", new String[]{"3"}, null, null, null);
             List<WordItem> data = new ArrayList<>();
             //取出cursor中所有的数据

@@ -22,6 +22,15 @@ public class WordAdapter extends BaseAdapter {
     private List<WordItem> data;
     private Context context;
 
+    /**
+     * 刷新数据
+     * @param newDate
+     */
+    public void setRefresh(List<WordItem> newDate){
+        this.data = newDate;
+        notifyDataSetChanged();
+    }
+
     public WordAdapter(Context context,List<WordItem> data) {
         this.data = data;
         this.context = context;

@@ -1,14 +1,12 @@
 package com.feeljcode.wordlearn;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.viewpager.widget.ViewPager;
-
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -84,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(BaseFragment.newInstance(this,"新闻"));
-        adapter.addFragment(BaseFragment.newInstance("图书"));
-        adapter.addFragment(BaseFragment.newInstance("发现"));
-        adapter.addFragment(BaseFragment.newInstance("更多"));
+        adapter.addFragment(new BaseFragment(this,"新闻"));
+        adapter.addFragment(new BaseFragment(this,"图书"));
+        adapter.addFragment(new BaseFragment(this,"发现"));
+        adapter.addFragment(new BaseFragment(this,"更多"));
         viewPager.setAdapter(adapter);
     }
 

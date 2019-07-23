@@ -2,6 +2,8 @@ package com.feeljcode.wordlearn;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,38 +40,24 @@ import okhttp3.Response;
 public class BaseFragment extends Fragment {
 
     private Context context;
+    private String info;
+    private Handler mHandler;
+    private List<WordItem> data;
+    private WordAdapter adapter;
 
-    public BaseFragment(){
-
-    }
-
-    public BaseFragment(Context context){
+    public BaseFragment(Context context,String info){
         this.context = context;
-    }
-
-    public static BaseFragment newInstance(String info) {
-        Bundle args = new Bundle();
-        BaseFragment fragment = new BaseFragment();
-        args.putString("info", info);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static BaseFragment newInstance(Context context,String info) {
-        Bundle args = new Bundle();
-        BaseFragment fragment = new BaseFragment(context);
-        args.putString("info", info);
-        fragment.setArguments(args);
-        return fragment;
+        this.info = info;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        String title = getArguments().getString("info");
+        if(info.equals("新闻")){
 
-        if(title.equals("新闻")){
+            data = new ArrayList<>();
+
             View view = inflater.inflate(R.layout.word_home,null);
 
             //列表展示
@@ -78,8 +66,28 @@ public class BaseFragment extends Fragment {
             //同步按钮
             Button synGenrnate = (Button) view.findViewById(R.id.synGernate);
 
-            synGenrnate.setOnClickListener(button -> {
+            adapter = new WordAdapter(context,data);
 
+            listView.setAdapter(adapter);
+
+            mHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    adapter.setRefresh(data);
+                }
+            };
+
+            new Thread(() ->{
+                data = DataOperation.getToDayWord(context);
+                if(null != data && !data.isEmpty()){
+                    Message message = new Message();
+                    message.obj = data ;
+                    mHandler.sendMessage(message);
+                }
+            }).start();
+
+            synGenrnate.setOnClickListener(button -> {
                 new Thread(() ->{
                     try{
                         String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
@@ -92,32 +100,26 @@ public class BaseFragment extends Fragment {
                         String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
                         DataOperation.isMemoryWord(context,data);
+
+                        List<WordItem> toDayWord = DataOperation.getToDayWord(context);
+
+                        if(null != toDayWord && !toDayWord.isEmpty()){
+                            Message message = new Message();
+                            message.obj = toDayWord;
+                            mHandler.sendMessage(message);
+                        }
+
                     }catch (Exception ex){
                         ex.getStackTrace();
                     }
                 }).start();
-
             });
-
-            WordAdapter adapter = new WordAdapter(context,new ArrayList<WordItem>());
-
-            listView.setAdapter(adapter);
-
-            new Thread(()->{
-
-                List<WordItem> toDayWord = DataOperation.getToDayWord(context);
-
-                WordAdapter Newadapter = new WordAdapter(context,toDayWord);
-
-                listView.setAdapter(Newadapter);
-
-            }).start();
 
             return view;
         }else{
             View view = inflater.inflate(R.layout.fragment_base, null);
             TextView tvInfo = (TextView) view.findViewById(R.id.textView);
-            tvInfo.setText(getArguments().getString("info"));
+            tvInfo.setText(this.info);
             tvInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
