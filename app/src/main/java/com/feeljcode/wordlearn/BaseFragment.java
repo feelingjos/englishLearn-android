@@ -54,7 +54,7 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        if(info.equals("新闻")){
+        if(info.equals("单词")){
 
             data = new ArrayList<>();
 

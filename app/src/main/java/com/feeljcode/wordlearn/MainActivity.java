@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(new BaseFragment(this,"新闻"));
+        adapter.addFragment(new BaseFragment(this,"单词"));
         adapter.addFragment(new BaseFragment(this,"图书"));
         adapter.addFragment(new BaseFragment(this,"发现"));
         adapter.addFragment(new BaseFragment(this,"更多"));
