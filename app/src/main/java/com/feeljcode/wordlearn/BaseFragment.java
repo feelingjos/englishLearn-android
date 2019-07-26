@@ -8,9 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -43,7 +47,7 @@ public class BaseFragment extends Fragment {
     private String info;
     private Handler mHandler;
     private List<WordItem> data;
-    private WordAdapter adapter;
+    private WordAdapter listWordAdapter;
 
     public BaseFragment(Context context,String info){
         this.context = context;
@@ -63,18 +67,39 @@ public class BaseFragment extends Fragment {
             //列表展示
             ListView listView = (ListView) view.findViewById(R.id.word_list);
 
+            Spinner spinner = (Spinner) view.findViewById(R.id.word_spinner);
+
+            List<String> list = new ArrayList<>();
+            list.add("同步");
+            list.add("添加");
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.support_simple_spinner_dropdown_item,list);
+            spinner.setAdapter(adapter);
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(context,"年后",Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
             //同步按钮
             Button synGenrnate = (Button) view.findViewById(R.id.synGernate);
 
-            adapter = new WordAdapter(context,data);
+            listWordAdapter = new WordAdapter(context,data);
 
-            listView.setAdapter(adapter);
+            listView.setAdapter(listWordAdapter);
 
             mHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
-                    adapter.setRefresh(data);
+                    listWordAdapter.setRefresh(data);
                 }
             };
 
