@@ -9,21 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.feeljcode.wordlearn.adapter.WordAdapter;
+import com.feeljcode.wordlearn.adapter.WordMenuAdapter;
 import com.feeljcode.wordlearn.entity.WordItem;
-import com.feeljcode.wordlearn.utils.ApiDocUtils;
+import com.feeljcode.wordlearn.entity.WordMenu;
 import com.feeljcode.wordlearn.utils.DataOperation;
-import com.feeljcode.wordlearn.utils.HttpUtils;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
@@ -69,17 +66,24 @@ public class BaseFragment extends Fragment {
 
             Spinner spinner = (Spinner) view.findViewById(R.id.word_spinner);
 
-            List<String> list = new ArrayList<>();
-            list.add("同步");
-            list.add("添加");
+            List<WordMenu> list = new ArrayList<>();
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.support_simple_spinner_dropdown_item,list);
-            spinner.setAdapter(adapter);
+            WordMenu wordMenu = new WordMenu();
+            wordMenu.setName("同步");
+            WordMenu wordMenu1 = new WordMenu();
+            wordMenu1.setName("添加");
+            list.add(wordMenu);
+            list.add(wordMenu1);
+
+            WordMenuAdapter wordMenuAdapter = new WordMenuAdapter(list,context);
+
+            //*ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.support_simple_spinner_dropdown_item,list);*//*
+            spinner.setAdapter(wordMenuAdapter);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context,"年后",Toast.LENGTH_LONG).show();
+                    //view.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -88,8 +92,8 @@ public class BaseFragment extends Fragment {
                 }
             });
 
-            //同步按钮
-            Button synGenrnate = (Button) view.findViewById(R.id.synGernate);
+           /* //同步按钮
+            Button synGenrnate = (Button) view.findViewById(R.id.synGernate);*/
 
             listWordAdapter = new WordAdapter(context,data);
 
@@ -112,7 +116,7 @@ public class BaseFragment extends Fragment {
                 }
             }).start();
 
-            synGenrnate.setOnClickListener(button -> {
+            /*synGenrnate.setOnClickListener(button -> {
                 new Thread(() ->{
                     try{
                         String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
@@ -138,7 +142,7 @@ public class BaseFragment extends Fragment {
                         ex.getStackTrace();
                     }
                 }).start();
-            });
+            });*/
 
             return view;
         }else{
