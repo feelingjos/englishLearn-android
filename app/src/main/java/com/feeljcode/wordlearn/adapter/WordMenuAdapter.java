@@ -48,21 +48,22 @@ public class WordMenuAdapter extends BaseAdapter {
 
         ViewHolder holder = null;
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.word_spinner_bottom,viewGroup,false);
+            view = LayoutInflater.from(context).inflate(R.layout.word_spinner_layout,viewGroup,false);
             holder = new ViewHolder();
-            /*holder.word = (TextView) view.findViewById(R.id.word);*/
-            holder.synG = (TextView) view.findViewById(R.id.synG);
+            holder.text_id = (TextView) view.findViewById(R.id.text_id);
+            holder.operation = (TextView) view.findViewById(R.id.operation);
             view.setTag(holder);
         }else {
             holder = (ViewHolder)view.getTag();
         }
-        holder.synG.setText(data.get(i).getName());
+        holder.operation.setText(data.get(i).getName());
+        holder.text_id.setText(data.get(i).getId().toString());
 
         return view;
     }
 
     static class ViewHolder{
-        TextView word;//id
-        TextView synG;//操作
+        TextView text_id;//id
+        TextView operation;//操作
     }
 }

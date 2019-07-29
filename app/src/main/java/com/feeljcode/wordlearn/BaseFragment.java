@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -69,9 +70,11 @@ public class BaseFragment extends Fragment {
             List<WordMenu> list = new ArrayList<>();
 
             WordMenu wordMenu = new WordMenu();
+            wordMenu.setId(1);
             wordMenu.setName("同步");
             WordMenu wordMenu1 = new WordMenu();
             wordMenu1.setName("添加");
+            wordMenu1.setId(2);
             list.add(wordMenu);
             list.add(wordMenu1);
 
@@ -83,7 +86,8 @@ public class BaseFragment extends Fragment {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    //view.setVisibility(View.INVISIBLE);
+                    Log.e("view",view.toString());
+                    Toast.makeText(context,"你好：" ,Toast.LENGTH_LONG).show();
                 }
 
                 @Override
