@@ -2,6 +2,7 @@ package com.feeljcode.wordlearn.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,9 @@ public class WordMenuAdapter extends BaseAdapter {
         holder.operation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Log.e("view",view.toString());
+
                 Intent intent = new Intent(context, WordAddActivity.class);
                 context.startActivity(intent);
                 Toast.makeText(context,"操作", Toast.LENGTH_LONG).show();
