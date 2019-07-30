@@ -64,7 +64,7 @@ public class WordMenuAdapter extends BaseAdapter {
 
         holder.operation.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) { 
                 Intent intent = new Intent(context, WordAddActivity.class);
                 context.startActivity(intent);
                 Toast.makeText(context,"同步", Toast.LENGTH_LONG).show();
