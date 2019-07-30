@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -83,16 +84,49 @@ public class BaseFragment extends Fragment {
             //*ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.support_simple_spinner_dropdown_item,list);*//*
             spinner.setAdapter(wordMenuAdapter);
 
+            /*spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    LinearLayout linearLayout = (LinearLayout) view;
+                    TextView  textView = (TextView) linearLayout.getChildAt(0);
+
+                    CharSequence tag = textView.getText();
+
+                    if(1 == TypeUtils.castToInt(tag)){
+
+                        Intent intent = new Intent(context,WordAddActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(context,"同步",Toast.LENGTH_LONG).show();
+
+                    }else {
+                        Toast.makeText(context,"添加",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });*/
+
+            
+
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.e("view",view.toString());
-                    Toast.makeText(context,"你好：" ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"onItemSelected",Toast.LENGTH_LONG).show();
+                    Log.e("点击了","onItemSelected");
+
+                    LinearLayout linearLayout = (LinearLayout) view;
+//                    linearLayout.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Intent intent = new Intent(context,WordAddActivity.class);
+//                            startActivity(intent);
+//                            Toast.makeText(context,"同步",Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-
+                    Toast.makeText(context,"onNothingSelected",Toast.LENGTH_LONG).show();
                 }
             });
 

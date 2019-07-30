@@ -15,4 +15,13 @@
         <item name="android:windowContentOverlay">@null</item>//是否有遮盖
     </style>
 
+    <style name="notitle.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="notitle.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="notitle.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
