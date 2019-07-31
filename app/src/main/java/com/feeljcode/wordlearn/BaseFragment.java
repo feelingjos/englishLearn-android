@@ -8,12 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -103,32 +100,6 @@ public class BaseFragment extends Fragment {
                     }
                 }
             });*/
-
-            
-
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(context,"onItemSelected",Toast.LENGTH_LONG).show();
-                    Log.e("点击了","onItemSelected");
-
-                    LinearLayout linearLayout = (LinearLayout) view;
-//                    linearLayout.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Intent intent = new Intent(context,WordAddActivity.class);
-//                            startActivity(intent);
-//                            Toast.makeText(context,"同步",Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    Toast.makeText(context,"onNothingSelected",Toast.LENGTH_LONG).show();
-                }
-            });
 
            /* //同步按钮
             Button synGenrnate = (Button) view.findViewById(R.id.synGernate);*/

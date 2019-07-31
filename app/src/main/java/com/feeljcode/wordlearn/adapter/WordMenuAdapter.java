@@ -1,7 +1,6 @@
 package com.feeljcode.wordlearn.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.feeljcode.wordlearn.R;
-import com.feeljcode.wordlearn.WordAddActivity;
 import com.feeljcode.wordlearn.entity.WordMenu;
 
 import java.util.List;
@@ -54,24 +52,26 @@ public class WordMenuAdapter extends BaseAdapter {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.word_spinner_layout,viewGroup,false);
             holder = new ViewHolder();
-            holder.text_id = (TextView) view.findViewById(R.id.text_id);
             holder.operation = (TextView) view.findViewById(R.id.operation);
             view.setTag(holder);
         }else {
             holder = (ViewHolder)view.getTag();
         }
+        holder.operation.setTag(data.get(i).getId());
         holder.operation.setText(data.get(i).getName());
-        holder.text_id.setText(data.get(i).getId().toString());
 
         holder.operation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Log.e("view",view.toString());
+                Log.e("view",view.getTag().toString());
 
-                Intent intent = new Intent(context, WordAddActivity.class);
+                Toast.makeText(context,view.getTag().toString(),Toast.LENGTH_LONG).show();
+
+                /*Intent intent = new Intent(context, WordAddActivity.class);
                 context.startActivity(intent);
-                Toast.makeText(context,"操作", Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"操作", Toast.LENGTH_LONG).show();*/
             }
         });
 
@@ -79,7 +79,6 @@ public class WordMenuAdapter extends BaseAdapter {
     }
 
     static class ViewHolder{
-        TextView text_id;//id
         TextView operation;//操作
     }
 }
