@@ -1,6 +1,7 @@
 package com.feeljcode.wordlearn.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.util.TypeUtils;
 import com.feeljcode.wordlearn.R;
+import com.feeljcode.wordlearn.WordAddActivity;
 import com.feeljcode.wordlearn.entity.WordItem;
 import com.feeljcode.wordlearn.entity.WordMenu;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
@@ -105,14 +107,11 @@ public class WordMenuAdapter extends BaseAdapter {
                     }).start();
 
                 }else if(2 == TypeUtils.castToInt(tag)){//添加
-
+                    Intent intent = new Intent(context, WordAddActivity.class);
+                    context.startActivity(intent);
                 }else {
                     Toast.makeText(context,"按钮异常",Toast.LENGTH_LONG).show();
                 }
-
-                /*Intent intent = new Intent(context, WordAddActivity.class);
-                context.startActivity(intent);
-                Toast.makeText(context,"操作", Toast.LENGTH_LONG).show();*/
             }
         });
 
