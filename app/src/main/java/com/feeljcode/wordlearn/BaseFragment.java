@@ -41,9 +41,15 @@ public class BaseFragment extends Fragment {
 
     private Context context;
     private String info;
-    private Handler mHandler;
     private List<WordItem> data;
     private WordAdapter listWordAdapter;
+    private Handler  mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            listWordAdapter.setRefresh(data);
+        }
+    };
 
     public BaseFragment(Context context,String info){
         this.context = context;
@@ -76,7 +82,7 @@ public class BaseFragment extends Fragment {
             list.add(wordMenu);
             list.add(wordMenu1);
 
-            WordMenuAdapter wordMenuAdapter = new WordMenuAdapter(list,context);
+            WordMenuAdapter wordMenuAdapter = new WordMenuAdapter(mHandler,list,context);
 
             //*ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.support_simple_spinner_dropdown_item,list);*//*
             spinner.setAdapter(wordMenuAdapter);
@@ -108,14 +114,6 @@ public class BaseFragment extends Fragment {
 
             listView.setAdapter(listWordAdapter);
 
-            mHandler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    listWordAdapter.setRefresh(data);
-                }
-            };
-
             new Thread(() ->{
                 data = DataOperation.getToDayWord(context);
                 if(null != data && !data.isEmpty()){
@@ -126,31 +124,7 @@ public class BaseFragment extends Fragment {
             }).start();
 
             /*synGenrnate.setOnClickListener(button -> {
-                new Thread(() ->{
-                    try{
-                        String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
-                        //未生成
-                        if(null == saa || "".equals(saa)){
-                            //执行接口生成
-                            HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
-                        }
-                        //获取数据
-                        String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
-                        DataOperation.isMemoryWord(context,data);
-
-                        List<WordItem> toDayWord = DataOperation.getToDayWord(context);
-
-                        if(null != toDayWord && !toDayWord.isEmpty()){
-                            Message message = new Message();
-                            message.obj = toDayWord;
-                            mHandler.sendMessage(message);
-                        }
-
-                    }catch (Exception ex){
-                        ex.getStackTrace();
-                    }
-                }).start();
             });*/
 
             return view;

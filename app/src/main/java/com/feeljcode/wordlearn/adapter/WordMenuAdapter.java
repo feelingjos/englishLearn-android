@@ -1,7 +1,8 @@
 package com.feeljcode.wordlearn.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.util.TypeUtils;
 import com.feeljcode.wordlearn.R;
+import com.feeljcode.wordlearn.entity.WordItem;
 import com.feeljcode.wordlearn.entity.WordMenu;
+import com.feeljcode.wordlearn.utils.ApiDocUtils;
+import com.feeljcode.wordlearn.utils.DataOperation;
+import com.feeljcode.wordlearn.utils.HttpUtils;
 
 import java.util.List;
 
@@ -24,8 +30,10 @@ public class WordMenuAdapter extends BaseAdapter {
 
     private List<WordMenu> data;
     private Context context;
+    private Handler mHandler;
 
-    public WordMenuAdapter(List<WordMenu> data,Context context){
+    public WordMenuAdapter(Handler mHandler,List<WordMenu> data,Context context){
+        this.mHandler = mHandler;
         this.data = data;
         this.context = context;
     }
@@ -64,10 +72,43 @@ public class WordMenuAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
-                Log.e("view",view.toString());
-                Log.e("view",view.getTag().toString());
+                TextView textView = (TextView) view;
 
-                Toast.makeText(context,view.getTag().toString(),Toast.LENGTH_LONG).show();
+                Object tag = textView.getTag();
+
+                if(1 == TypeUtils.castToInt(tag)){//同步
+
+                    new Thread(() ->{
+                        try{
+                            String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
+                            //未生成
+                            if(null == saa || "".equals(saa)){
+                                //执行接口生成
+                                HttpUtils.post(ApiDocUtils.generateMemoryWord, null);
+                            }
+                            //获取数据
+                            String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
+
+                            DataOperation.isMemoryWord(context,data);
+
+                            List<WordItem> toDayWord = DataOperation.getToDayWord(context);
+
+                            if(null != toDayWord && !toDayWord.isEmpty()){
+                                Message message = new Message();
+                                message.obj = toDayWord;
+                                mHandler.sendMessage(message);
+                            }
+
+                        }catch (Exception ex){
+                            ex.getStackTrace();
+                        }
+                    }).start();
+
+                }else if(2 == TypeUtils.castToInt(tag)){//添加
+
+                }else {
+                    Toast.makeText(context,"按钮异常",Toast.LENGTH_LONG).show();
+                }
 
                 /*Intent intent = new Intent(context, WordAddActivity.class);
                 context.startActivity(intent);
