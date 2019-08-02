@@ -99,4 +99,39 @@ public class DataOperation {
         return null;
     }
 
+    /**
+     * 添加要保存的单词到本地
+     * @param context
+     * @param wordItem
+     */
+    public static void addWordLocal(Context context,WordItem wordItem){
+
+        DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
+        SQLiteDatabase sQLiteDatabase = null;
+        try{
+            sQLiteDatabase = dbHelper.getReadableDatabase();
+            //开启事务
+            sQLiteDatabase.beginTransaction();
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put("phoneticsymbol",wordItem.getPhoneticSymbol());
+            contentValues.put("translate",wordItem.getTranslate());
+            contentValues.put("type",wordItem.getType());
+            contentValues.put("word",wordItem.getWord());
+
+            sQLiteDatabase.insert("wordenglish","null",contentValues);
+
+            //提交事务
+            sQLiteDatabase.setTransactionSuccessful();
+
+        }catch (Exception ex){
+            ex.getStackTrace();
+        }finally {
+            if(sQLiteDatabase != null){
+                sQLiteDatabase.endTransaction();
+                sQLiteDatabase.close();
+            }
+        }
+    }
+
 }

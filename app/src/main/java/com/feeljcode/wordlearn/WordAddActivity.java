@@ -57,6 +57,8 @@ public class WordAddActivity extends AppCompatActivity {
 
 
 
+
+
             }
         });
 
