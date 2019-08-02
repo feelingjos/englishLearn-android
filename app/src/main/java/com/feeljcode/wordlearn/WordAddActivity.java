@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.feeljcode.wordlearn.entity.WordItem;
+import com.feeljcode.wordlearn.utils.DataOperation;
+
 public class WordAddActivity extends AppCompatActivity {
 
     private Context context;
@@ -54,10 +57,17 @@ public class WordAddActivity extends AppCompatActivity {
                     return;
                 }
 
+                WordItem wordItem = new WordItem();
+                wordItem.setWord(wordVal);
+                wordItem.setTranslate(translateVal);
+                wordItem.setType(typeVal);
+                wordItem.setPhoneticSymbol(phoneticSymbolVal);
 
+                new Thread(() ->{
 
+                    DataOperation.addWordLocal(context,wordItem);
 
-
+                }).start();
 
             }
         });
