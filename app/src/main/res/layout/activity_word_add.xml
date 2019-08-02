@@ -131,12 +131,15 @@
             android:orientation="horizontal">
 
             <Button
+                android:text="添加"
+                android:id="@+id/add_word_fun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
             <Button
-
+                android:text="取消"
+                android:id="@+id/exit_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
