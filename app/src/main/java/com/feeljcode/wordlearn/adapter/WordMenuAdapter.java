@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.feeljcode.wordlearn.R;
 import com.feeljcode.wordlearn.WordAddActivity;
@@ -20,7 +21,9 @@ import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Feeljcode
@@ -92,6 +95,14 @@ public class WordMenuAdapter extends BaseAdapter {
                             String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
                             DataOperation.isMemoryWord(context,data);
+
+                            List<WordItem> localNewWord = DataOperation.getLocalNewWord(context);
+
+                            if(!localNewWord.isEmpty()){
+                                Map<String,String> param = new HashMap<>();
+                                param.put("data", JSON.toJSONString(localNewWord));
+                                HttpUtils.post(ApiDocUtils.pushLocalNewWord,param);
+                            }
 
                             List<WordItem> toDayWord = DataOperation.getToDayWord(context);
 
