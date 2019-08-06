@@ -67,7 +67,8 @@ public class WordAddActivity extends AppCompatActivity {
                 String typeVal = type.getText().toString();
                 String phoneticSymbolVal = phoneticSymbol.getText().toString();
                 String translateVal = translate.getText().toString();
-                if( null == wordVal || null == typeVal ||null == phoneticSymbolVal ||null == translateVal ){
+                if( null == wordVal || null == typeVal ||null == phoneticSymbolVal ||null == translateVal ||
+                    "".equals(wordVal) || "".equals(typeVal) || "".equals(phoneticSymbolVal) || "".equals(translateVal)){
                     Toast.makeText(context,"请补全信息!!",Toast.LENGTH_LONG).show();
                     return;
                 }

@@ -47,6 +47,7 @@ public class BaseFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            data = (List<WordItem>) msg.obj;
             listWordAdapter.setRefresh(data);
         }
     };
