@@ -1,5 +1,7 @@
 package com.feeljcode.wordlearn;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
@@ -22,13 +24,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PackageInfo pkg;
+        int versionCode = 0;
+        String versionName = "";
+        try {
+            pkg = this.getPackageManager().getPackageInfo(this.getApplication().getPackageName(), 0);
+            versionCode = pkg.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);//remove title bar  即隐藏标题栏
         getSupportActionBar().hide();// 隐藏ActionBar
 
         setContentView(R.layout.activity_home);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        viewPager = findViewById(R.id.viewpager);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         //默认 >3 的选中效果会影响ViewPager的滑动切换时的效果，故利用反射去掉
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {

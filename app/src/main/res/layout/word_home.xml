@@ -46,8 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignEnd="@+id/textView3"
                 android:layout_marginTop="27dp"
-                android:layout_marginEnd="-229dp"
-                android:entries="@array/languages"/>
+                android:layout_marginEnd="-181dp"
+                android:entries="@array/languages" />
 
         </RelativeLayout>
     </LinearLayout>

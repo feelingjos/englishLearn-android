@@ -20,6 +20,7 @@ import com.feeljcode.wordlearn.entity.WordMenu;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
+import com.feeljcode.wordlearn.utils.Version;
 
 import java.util.HashMap;
 import java.util.List;
@@ -116,10 +117,11 @@ public class WordMenuAdapter extends BaseAdapter {
                             ex.getStackTrace();
                         }
                     }).start();
-
                 }else if(2 == TypeUtils.castToInt(tag)){//添加
                     Intent intent = new Intent(context, WordAddActivity.class);
                     context.startActivity(intent);
+                }else if(3 == TypeUtils.castToInt(tag)){
+                   Toast.makeText(context,Version.getVersionCode(context),Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(context,"按钮异常",Toast.LENGTH_LONG).show();
                 }

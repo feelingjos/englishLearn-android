@@ -80,8 +80,14 @@ public class BaseFragment extends Fragment {
             WordMenu wordMenu1 = new WordMenu();
             wordMenu1.setName("添加");
             wordMenu1.setId(2);
+
+            WordMenu wordMenu2 = new WordMenu();
+            wordMenu2.setName("更新");
+            wordMenu2.setId(3);
+
             list.add(wordMenu);
             list.add(wordMenu1);
+            list.add(wordMenu2);
 
             WordMenuAdapter wordMenuAdapter = new WordMenuAdapter(mHandler,list,context);
 
