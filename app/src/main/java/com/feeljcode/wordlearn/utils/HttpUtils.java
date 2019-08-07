@@ -1,13 +1,9 @@
 package com.feeljcode.wordlearn.utils;
 
-import android.os.Build;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
-import com.alibaba.fastjson.JSON;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -79,5 +75,55 @@ public class HttpUtils {
         }
         return null;
     }
+
+    /**
+     * 下载更新apk
+     * @param photoOnlinePath
+     * @param photoLocalPath
+     */
+    public static void downloadApk(String photoOnlinePath, String photoLocalPath) {
+        File myPath = new File(photoLocalPath);
+        String directory = myPath.getParent();
+        File mydirectory = new File(directory);
+        if (!mydirectory.exists()) {
+            //若此目录不存在，则创建之
+            mydirectory.mkdirs();
+        }
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okhttp3.Request request = new okhttp3.Request.Builder().get().url(photoOnlinePath).build();
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            if (!response.isSuccessful()) {
+            } else {
+                InputStream is;
+                is = response.body().byteStream();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(myPath);
+                    int len;
+                    byte[] bytes = new byte[1024];
+                    while ((len = is.read(bytes)) != -1) {
+                        fos.write(bytes, 0, len);
+                    }
+                } catch (IOException oue) {
+                } finally {
+                    if (is != null) {
+                        try {
+                            is.close();
+                        } catch (IOException isclose) {
+                        }
+                    }
+                    if (fos != null) {
+                        try {
+                            fos.close();
+                        } catch (IOException fosclose) {
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+        }
+    }
+
 
 }

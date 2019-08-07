@@ -2,6 +2,7 @@ package com.feeljcode.wordlearn.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import com.feeljcode.wordlearn.entity.WordMenu;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
-import com.feeljcode.wordlearn.utils.Version;
 
 import java.util.HashMap;
 import java.util.List;
@@ -118,10 +118,22 @@ public class WordMenuAdapter extends BaseAdapter {
                         }
                     }).start();
                 }else if(2 == TypeUtils.castToInt(tag)){//添加
+
                     Intent intent = new Intent(context, WordAddActivity.class);
                     context.startActivity(intent);
+                    
                 }else if(3 == TypeUtils.castToInt(tag)){
-                   Toast.makeText(context,Version.getVersionCode(context),Toast.LENGTH_LONG).show();
+
+                    new Thread(() ->{
+                        HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk,context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+                        Message message = new Message();
+                        message.obj = "downloadApkSuccess";
+                        mHandler.sendMessage(message);
+                    }).start();
+
+                   Toast.makeText(context,context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),Toast.LENGTH_LONG).show();
+
+                   //Toast.makeText(context,Version.getVersionCode(context),Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(context,"按钮异常",Toast.LENGTH_LONG).show();
                 }
