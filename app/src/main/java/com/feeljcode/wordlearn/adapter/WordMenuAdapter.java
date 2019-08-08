@@ -2,7 +2,7 @@ package com.feeljcode.wordlearn.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -22,6 +22,7 @@ import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,6 +110,9 @@ public class WordMenuAdapter extends BaseAdapter {
 
                             if(null != toDayWord && !toDayWord.isEmpty()){
                                 Message message = new Message();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("tag","updateSuccess");
+                                message.setData(bundle);
                                 message.obj = toDayWord;
                                 mHandler.sendMessage(message);
                             }
@@ -124,14 +128,20 @@ public class WordMenuAdapter extends BaseAdapter {
                     
                 }else if(3 == TypeUtils.castToInt(tag)){
 
+                    Toast.makeText(context, context.getPackageResourcePath(), Toast.LENGTH_SHORT).show();
+
                     new Thread(() ->{
-                        HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk,context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+                        HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, "/data/data/com.feeljcode.wordlearn/download");
+                        File file = new File("/data/data/com.feeljcode.wordlearn/download/app-release.apk");
                         Message message = new Message();
-                        message.obj = "downloadApkSuccess";
+                        Bundle bundle = new Bundle();
+                        bundle.putString("tag","downloadApkSuccess");
+                        message.setData(bundle);
+                        message.obj = file;
                         mHandler.sendMessage(message);
                     }).start();
 
-                   Toast.makeText(context,context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),Toast.LENGTH_LONG).show();
+                   //Toast.makeText(context,context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),Toast.LENGTH_LONG).show();
 
                    //Toast.makeText(context,Version.getVersionCode(context),Toast.LENGTH_LONG).show();
                 }else {

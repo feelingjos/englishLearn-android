@@ -29,9 +29,9 @@ public class HttpUtils {
                 .newBuilder();
 
         if(param !=null && !param.isEmpty()){
-            param.forEach((key,value) -> {
-                urlBuilder.addQueryParameter(key,value);
-            });
+            for (Map.Entry<String, String> entry : param.entrySet()) {
+                urlBuilder.addQueryParameter(entry.getKey(),entry.getValue());
+            }
         }
 
 
@@ -55,11 +55,10 @@ public class HttpUtils {
         FormBody.Builder builder = new FormBody.Builder();
 
         if(param !=null && !param.isEmpty()){
-            param.forEach((key,value) ->{
-                builder.add(key,value);
-            });
+            for (Map.Entry<String, String> entry : param.entrySet()) {
+                builder.add(entry.getKey(),entry.getValue());
+            }
         }
-
 
         Request request = new Request.Builder()
                 .url(ApiDocUtils.ApiBase + api)
@@ -83,11 +82,9 @@ public class HttpUtils {
      */
     public static void downloadApk(String photoOnlinePath, String photoLocalPath) {
         File myPath = new File(photoLocalPath);
-        String directory = myPath.getParent();
-        File mydirectory = new File(directory);
-        if (!mydirectory.exists()) {
-            //若此目录不存在，则创建之
-            mydirectory.mkdirs();
+        if(!myPath.exists()){
+            boolean mkdirs = myPath.mkdirs();
+            System.out.println(mkdirs);
         }
         OkHttpClient okHttpClient = new OkHttpClient();
         okhttp3.Request request = new okhttp3.Request.Builder().get().url(photoOnlinePath).build();
@@ -99,13 +96,14 @@ public class HttpUtils {
                 is = response.body().byteStream();
                 FileOutputStream fos = null;
                 try {
-                    fos = new FileOutputStream(myPath);
+                    fos = new FileOutputStream(myPath+"/app-release.apk");
                     int len;
                     byte[] bytes = new byte[1024];
                     while ((len = is.read(bytes)) != -1) {
                         fos.write(bytes, 0, len);
                     }
                 } catch (IOException oue) {
+                    oue.getStackTrace();
                 } finally {
                     if (is != null) {
                         try {
@@ -117,11 +115,13 @@ public class HttpUtils {
                         try {
                             fos.close();
                         } catch (IOException fosclose) {
+                            fosclose.getStackTrace();
                         }
                     }
                 }
             }
         } catch (IOException e) {
+            e.getStackTrace();
         }
     }
 

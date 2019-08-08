@@ -1,6 +1,9 @@
 package com.feeljcode.wordlearn;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.feeljcode.wordlearn.adapter.WordAdapter;
@@ -22,6 +26,7 @@ import com.feeljcode.wordlearn.entity.WordMenu;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +52,35 @@ public class BaseFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            data = (List<WordItem>) msg.obj;
-            listWordAdapter.setRefresh(data);
+
+            Bundle data = msg.getData();
+            String tag = data.getString("tag");
+            if("updateSuccess".equals(tag)){//更新远程数据
+                BaseFragment.this.data = (List<WordItem>) msg.obj;
+                listWordAdapter.setRefresh(BaseFragment.this.data);
+            }else if("downloadApkSuccess".equals(tag)){//更新apk版本号
+
+                File file = (File) msg.obj;
+                Intent intent = new Intent();
+                //执行动作
+                intent.setAction(Intent.ACTION_VIEW);
+
+                Uri datas = null;
+
+                // 判断版本大于等于7.0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    // "net.csdn.blog.ruancoder.fileprovider"即是在清单文件中配置的authorities
+                    datas = FileProvider.getUriForFile(context, "com.feeljcode.wordlearn.fileprovider", file);
+                    // 给目标应用一个临时授权
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                } else {
+                    datas = Uri.fromFile(file);
+                }
+                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setDataAndType(datas, "application/vnd.android.package-archive");
+                startActivity(intent);
+
+            }
         }
     };
 
