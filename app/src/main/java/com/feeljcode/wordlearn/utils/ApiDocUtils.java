@@ -9,6 +9,7 @@ public class ApiDocUtils {
 
     //public static final String ApiBase = "http://192.168.1.111:8888";
     public static final String ApiBase = "http://192.168.1.102:9959";
+    //public static final String ApiBase = "http://192.168.1.202:9959";
 
     //是否同步
     public static final  String synGenerate = "/isgenerateTodayMemoryWord";
@@ -22,6 +23,6 @@ public class ApiDocUtils {
     //推送本地新单词到服务器
     public static final String pushLocalNewWord = "/saveNewWordForApp";
 
-    public static final String downloadApk = "/res/static/app-release.apk";
+    public static final String downloadApk = "/res/static/qq.apk";
 
 }

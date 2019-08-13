@@ -3,6 +3,7 @@ package com.feeljcode.wordlearn.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -128,11 +129,23 @@ public class WordMenuAdapter extends BaseAdapter {
                     
                 }else if(3 == TypeUtils.castToInt(tag)){
 
-                    Toast.makeText(context, context.getPackageResourcePath(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,System.getProperty("user.dir"),Toast.LENGTH_LONG).show();
+
+                    //Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+
+                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+
+                   /* Toast.makeText(context, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
+                           ,Toast.LENGTH_LONG).show();*/
 
                     new Thread(() ->{
-                        HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, "/data/data/com.feeljcode.wordlearn/download");
-                        File file = new File("/data/data/com.feeljcode.wordlearn/download/app-release.apk");
+                        File file = new File(path + "/app-release.apk");
+                        if (!file.exists()){
+                            //HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, "/data/data/com.feeljcode.wordlearn/download");
+                            HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, path);
+                        }else{
+                            file = new File(path + "/app-release.apk");
+                        }
                         Message message = new Message();
                         Bundle bundle = new Bundle();
                         bundle.putString("tag","downloadApkSuccess");

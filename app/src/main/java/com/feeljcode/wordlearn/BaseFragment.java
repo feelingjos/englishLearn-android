@@ -2,6 +2,8 @@ package com.feeljcode.wordlearn;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,9 +66,7 @@ public class BaseFragment extends Fragment {
                 Intent intent = new Intent();
                 //执行动作
                 intent.setAction(Intent.ACTION_VIEW);
-
                 Uri datas = null;
-
                 // 判断版本大于等于7.0
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     // "net.csdn.blog.ruancoder.fileprovider"即是在清单文件中配置的authorities
@@ -74,12 +74,20 @@ public class BaseFragment extends Fragment {
                     // 给目标应用一个临时授权
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 } else {
+                    //datas = Uri.fromFile(file);
                     datas = Uri.fromFile(file);
                 }
                 //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setDataAndType(datas, "application/vnd.android.package-archive");
-                startActivity(intent);
 
+                List<ResolveInfo> resolveLists = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+                // 然后全部授权
+                for (ResolveInfo resolveInfo : resolveLists){
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    context.grantUriPermission(packageName, datas, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
+                startActivity(intent);
             }
         }
     };

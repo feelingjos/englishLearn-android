@@ -90,13 +90,12 @@ public class HttpUtils {
         okhttp3.Request request = new okhttp3.Request.Builder().get().url(photoOnlinePath).build();
         try {
             Response response = okHttpClient.newCall(request).execute();
-            if (!response.isSuccessful()) {
-            } else {
+            if (response.isSuccessful()) {
                 InputStream is;
                 is = response.body().byteStream();
                 FileOutputStream fos = null;
                 try {
-                    fos = new FileOutputStream(myPath+"/app-release.apk");
+                    fos = new FileOutputStream(myPath + "/app-release.apk");
                     int len;
                     byte[] bytes = new byte[1024];
                     while ((len = is.read(bytes)) != -1) {
@@ -109,6 +108,7 @@ public class HttpUtils {
                         try {
                             is.close();
                         } catch (IOException isclose) {
+                            isclose.getStackTrace();
                         }
                     }
                     if (fos != null) {
