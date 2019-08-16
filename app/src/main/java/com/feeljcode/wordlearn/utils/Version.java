@@ -18,18 +18,18 @@ public class Version {
      * @param context
      * @return
      */
-    public static String getVersionCode(Context context){
+    public static Long getVersionCode(Context context){
 
-        int versioncode = 0;
+        Long versioncode = 0l;
         try {
             PackageManager pm = context.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
             // versionName = pi.versionName;
-            versioncode = pi.versionCode;
+            versioncode = pi.getLongVersionCode();
         } catch (Exception e) {
             Log.e("VersionInfo", "Exception", e);
         }
-        return versioncode + "";
+        return versioncode ;
 
     }
 

@@ -23,6 +23,10 @@ public class ApiDocUtils {
     //推送本地新单词到服务器
     public static final String pushLocalNewWord = "/saveNewWordForApp";
 
-    public static final String downloadApk = "/res/static/qq.apk";
+    public static final String downloadApk = "/res/static/app-release.apk";
+
+    //获取新版本信息
+    public static final String getApkVersion = "/getApkVersion";
+
 
 }

@@ -22,6 +22,7 @@ import com.feeljcode.wordlearn.entity.WordMenu;
 import com.feeljcode.wordlearn.utils.ApiDocUtils;
 import com.feeljcode.wordlearn.utils.DataOperation;
 import com.feeljcode.wordlearn.utils.HttpUtils;
+import com.feeljcode.wordlearn.utils.Version;
 
 import java.io.File;
 import java.util.HashMap;
@@ -129,30 +130,46 @@ public class WordMenuAdapter extends BaseAdapter {
                     
                 }else if(3 == TypeUtils.castToInt(tag)){
 
-                    //Toast.makeText(context,System.getProperty("user.dir"),Toast.LENGTH_LONG).show();
+                    new Thread(() ->{
 
-                    //Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+                        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
-                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+                        String post = HttpUtils.post( ApiDocUtils.getApkVersion, null);
 
-                   /* Toast.makeText(context, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()
-                           ,Toast.LENGTH_LONG).show();*/
+                        Long versionCode = Version.getVersionCode(context);
+
+                        if (TypeUtils.castToLong(post).longValue() > versionCode.longValue()){
+                            File file = new File(path + "/app-release.apk");
+                            if (!file.exists()){
+                                //HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, "/data/data/com.feeljcode.wordlearn/download");
+                                HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, path);
+                            }else{
+                                file = new File(path + "/app-release.apk");
+                            }
+                            Message message = new Message();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("tag","downloadApkSuccess");
+                            message.setData(bundle);
+                            message.obj = file;
+                            mHandler.sendMessage(message);
+                        }else {
+                            Message message=new Message();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("tag","noUpdate");
+                            message.setData(bundle);
+                            mHandler.sendMessage(message);
+                        }
+
+
+                        Toast.makeText(context,Version.getVersionCode(context).toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,post.toString(),Toast.LENGTH_LONG).show();
+                    }).start();
+
+                   /* String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
                     new Thread(() ->{
-                        File file = new File(path + "/app-release.apk");
-                        if (!file.exists()){
-                            //HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, "/data/data/com.feeljcode.wordlearn/download");
-                            HttpUtils.downloadApk(ApiDocUtils.ApiBase + ApiDocUtils.downloadApk, path);
-                        }else{
-                            file = new File(path + "/app-release.apk");
-                        }
-                        Message message = new Message();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("tag","downloadApkSuccess");
-                        message.setData(bundle);
-                        message.obj = file;
-                        mHandler.sendMessage(message);
-                    }).start();
+
+                    }).start();*/
 
                    //Toast.makeText(context,context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(),Toast.LENGTH_LONG).show();
 
