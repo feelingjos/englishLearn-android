@@ -89,6 +89,11 @@ public class WordMenuAdapter extends BaseAdapter {
 
                     new Thread(() ->{
                         try{
+
+                            String isSynTag = DataOperation.getIsSynTag(context);
+                            if(isSynTag !=null){
+                                return;
+                            }
                             String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
                             //未生成
                             if(null == saa || "".equals(saa)){

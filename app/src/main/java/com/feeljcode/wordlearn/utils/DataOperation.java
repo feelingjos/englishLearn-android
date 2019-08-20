@@ -177,4 +177,33 @@ public class DataOperation {
         return null;
     }
 
+    /**
+     * 获取本地同步标识
+     * @param context
+     * @return
+     */
+    public static String getIsSynTag(Context context){
+        DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
+        SQLiteDatabase sQLiteDatabase = null;
+        try{
+            sQLiteDatabase = dbHelper.getReadableDatabase();
+            String where =" today_ganerate = " + DateOptionsUtils.getDate(null,0);
+            Cursor cursor = sQLiteDatabase.query("memory_generate_tag", new String[]{"today_ganerate"},where , null, null, null, null);
+            //cursor = database.query("person", null, "_id=?", new String[]{"3"}, null, null, null);
+            //取出cursor中所有的数据
+            String tag= null;
+            while(cursor.moveToNext()) {
+                tag = cursor.getString(cursor.getColumnIndex("today_ganerate"));
+            }
+            // 3. 关闭
+            cursor.close();
+            sQLiteDatabase.close();
+            return tag;
+        }catch (Exception ex){
+            ex.getStackTrace();
+        }
+
+        return null;
+    }
+
 }
