@@ -206,4 +206,34 @@ public class DataOperation {
         return null;
     }
 
+    /**
+     * 保存同步标识
+     * @param context
+     */
+    public static void saveTodayTag(Context context){
+        DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
+        SQLiteDatabase sQLiteDatabase = null;
+        try{
+            sQLiteDatabase = dbHelper.getReadableDatabase();
+            //开启事务
+            sQLiteDatabase.beginTransaction();
+            ContentValues contentValues = new ContentValues();
+
+            contentValues.put("today_ganerate", DateOptionsUtils.getDate(null,0));
+
+            sQLiteDatabase.insert("memory_generate_tag","null",contentValues);
+
+            //提交事务
+            sQLiteDatabase.setTransactionSuccessful();
+
+        }catch (Exception ex){
+            ex.getStackTrace();
+        }finally {
+            if(sQLiteDatabase != null){
+                sQLiteDatabase.endTransaction();
+                sQLiteDatabase.close();
+            }
+        }
+    }
+
 }

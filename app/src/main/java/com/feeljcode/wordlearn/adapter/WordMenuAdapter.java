@@ -115,6 +115,8 @@ public class WordMenuAdapter extends BaseAdapter {
 
                             List<WordItem> toDayWord = DataOperation.getToDayWord(context);
 
+                            DataOperation.saveTodayTag(context);
+
                             if(null != toDayWord && !toDayWord.isEmpty()){
                                 Message message = new Message();
                                 Bundle bundle = new Bundle();

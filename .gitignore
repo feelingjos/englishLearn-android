@@ -13,3 +13,8 @@
 .externalNativeBuild
 /.svn
 /.idea
+
+/debug
+/libs
+/app/release
+

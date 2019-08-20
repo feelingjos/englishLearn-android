@@ -41,8 +41,8 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(wordenglish);
         sqLiteDatabase.execSQL(memoryTagdb);
 
-        sqLiteDatabase.execSQL("INSERT INTO memory_generate_tag (today_ganerate) " +
-                "VALUES ("+DateOptionsUtils.getDate(null,0)+");");
+        /*sqLiteDatabase.execSQL("INSERT INTO memory_generate_tag (today_ganerate) " +
+                "VALUES ("+DateOptionsUtils.getDate(null,0)+");");*/
 
     }
 
