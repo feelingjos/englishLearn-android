@@ -236,4 +236,20 @@ public class DataOperation {
         }
     }
 
+    /**
+     * 清除旧数据
+     * @param context
+     */
+    public static void deleteAllOldMemoryWord(Context context){
+        DBHelper dbHelper = new DBHelper(context, DBVersion.DB_VERSION);
+        SQLiteDatabase sQLiteDatabase = null;
+        try{
+            sQLiteDatabase = dbHelper.getReadableDatabase();
+            sQLiteDatabase.delete("memoryrule",null,null);
+            sQLiteDatabase.close();
+        }catch (Exception ex){
+            ex.getStackTrace();
+        }
+    }
+
 }

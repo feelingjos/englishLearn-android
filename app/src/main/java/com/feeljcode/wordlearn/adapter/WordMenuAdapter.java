@@ -94,6 +94,10 @@ public class WordMenuAdapter extends BaseAdapter {
                             if(isSynTag !=null){
                                 return;
                             }
+
+                            //清除就数据
+                            DataOperation.deleteAllOldMemoryWord(context);
+
                             String saa = HttpUtils.post(ApiDocUtils.synGenerate,null);
                             //未生成
                             if(null == saa || "".equals(saa)){
@@ -102,6 +106,8 @@ public class WordMenuAdapter extends BaseAdapter {
                             }
                             //获取数据
                             String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
+
+
 
                             DataOperation.isMemoryWord(context,data);
 
