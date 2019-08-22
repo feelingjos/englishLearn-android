@@ -107,8 +107,6 @@ public class WordMenuAdapter extends BaseAdapter {
                             //获取数据
                             String data = HttpUtils.post(ApiDocUtils.getTodayMemoryWord, null);
 
-
-
                             DataOperation.isMemoryWord(context,data);
 
                             List<WordItem> localNewWord = DataOperation.getLocalNewWord(context);

@@ -54,6 +54,7 @@ public class WordAdapter extends BaseAdapter {
         holder.type.setText(data.get(position).getType());
         holder.phoneticSymbol.setText(data.get(position).getPhoneticSymbol());
         holder.translate.setText(data.get(position).getTranslate());
+
         return view;
     }
 

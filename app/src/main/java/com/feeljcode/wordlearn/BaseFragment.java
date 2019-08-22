@@ -60,6 +60,9 @@ public class BaseFragment extends Fragment {
             if("updateSuccess".equals(tag)){//更新远程数据
                 BaseFragment.this.data = (List<WordItem>) msg.obj;
                 listWordAdapter.setRefresh(BaseFragment.this.data);
+            }else if("loadSuccess".equals(tag)){
+                BaseFragment.this.data = (List<WordItem>) msg.obj;
+                listWordAdapter.setRefresh(BaseFragment.this.data);
             }else if("downloadApkSuccess".equals(tag)){//更新apk版本号
 
                 File file = (File) msg.obj;
@@ -165,6 +168,9 @@ public class BaseFragment extends Fragment {
                 data = DataOperation.getToDayWord(context);
                 if(null != data && !data.isEmpty()){
                     Message message = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("tag","loadSuccess");//加载本地
+                    message.setData(bundle);
                     message.obj = data ;
                     mHandler.sendMessage(message);
                 }
