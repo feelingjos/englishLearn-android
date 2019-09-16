@@ -7,8 +7,8 @@ package com.feeljcode.wordlearn.utils;
  */
 public class ApiDocUtils {
 
-    //public static final String ApiBase = "http://192.168.1.111:8888";
-    public static final String ApiBase = "http://192.168.1.102:9959";
+    public static final String ApiBase = "http://192.168.1.111:8888";
+    //public static final String ApiBase = "http://192.168.1.102:9959";
     //public static final String ApiBase = "http://192.168.1.202:9959";
 
     //是否同步

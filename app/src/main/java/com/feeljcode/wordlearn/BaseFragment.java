@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -142,18 +139,6 @@ public class BaseFragment extends Fragment {
             //*ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,R.layout.support_simple_spinner_dropdown_item,list);*//*
             spinner.setAdapter(wordMenuAdapter);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Toast.makeText(context,view.toString(),Toast.LENGTH_LONG).show();
-                    LinearLayout linearLayout = (LinearLayout) view;
-                    Drawable color = new ColorDrawable();
-                    ((ColorDrawable) color).setColor(221160221);
-                    linearLayout.setBackground(color);
-
-                }
-            });
-
             /*spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -193,9 +178,15 @@ public class BaseFragment extends Fragment {
                 }
             }).start();
 
-            /*synGenrnate.setOnClickListener(button -> {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            });*/
+                    int checkedItemPosition = listView.getCheckedItemPosition();
+                    Toast.makeText(context, "you chose item " + checkedItemPosition, Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
             return view;
         }else{
