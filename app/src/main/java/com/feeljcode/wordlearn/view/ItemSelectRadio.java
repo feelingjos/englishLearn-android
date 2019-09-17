@@ -2,11 +2,8 @@ package com.feeljcode.wordlearn.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Checkable;
 import android.widget.LinearLayout;
-
-import com.alibaba.fastjson.JSON;
 
 
 /**
@@ -16,50 +13,45 @@ import com.alibaba.fastjson.JSON;
  * Description:
  */
 public class ItemSelectRadio extends LinearLayout implements Checkable {
+    private boolean isChecked = false;
+    private Context context;
 
-    private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
-
-    private boolean mChecked;
-
-    public ItemSelectRadio(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public ItemSelectRadio(Context context) {
+        super(context, null);
+        this.context = context;
     }
 
+    public ItemSelectRadio(Context context, AttributeSet attrs) {
+        super(context, attrs, 0);
+    }
 
+    public ItemSelectRadio(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
     @Override
-    public void setChecked(boolean b) {
-
-        Log.e("setChecked",b + "");
-
-        if (b != mChecked){
-            mChecked = b;
-            refreshDrawableState();
-        }
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+        changeColor(checked);
     }
 
     @Override
     public boolean isChecked() {
-        return mChecked;
+        return isChecked;
     }
 
     @Override
     public void toggle() {
-        Log.e("toggle","toggle");
-        setChecked(!mChecked);
+        this.isChecked = !this.isChecked;
+        changeColor(this.isChecked);
     }
 
-
-    @Override
-    protected int[] onCreateDrawableState(int extraSpace) {
-
-        Log.e("onCreateDrawableState",extraSpace + "");
-
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-
-        if (isChecked()) mergeDrawableStates(drawableState, CHECKED_STATE_SET);
-
-        Log.e("onCreateDrawableState", JSON.toJSONString(drawableState));
-
-        return drawableState;
+    private void changeColor(boolean isChecked) {
+        //根据check的状态切换颜色
+        if (isChecked) {
+            setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        } else {
+            setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        }
     }
+
 }
