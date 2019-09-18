@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import library.PopupList;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -52,6 +52,8 @@ public class BaseFragment extends Fragment {
     private String info;
     private List<WordItem> data;
     private WordAdapter listWordAdapter;
+    private List<String> popupMenuItemList = new ArrayList<>();
+
     private Handler  mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -178,7 +180,24 @@ public class BaseFragment extends Fragment {
                 }
             }).start();
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            popupMenuItemList.add("困难");
+            popupMenuItemList.add("容易");
+
+            PopupList popupList = new PopupList(context);
+            popupList.bind(listView, popupMenuItemList, new PopupList.PopupListListener() {
+                @Override
+                public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                    return true;
+                }
+
+                @Override
+                public void onPopupListClick(View contextView, int contextPosition, int position) {
+                    Toast.makeText(context,contextPosition + "",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MainActivity.this, contextPosition + "," + position, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -186,7 +205,7 @@ public class BaseFragment extends Fragment {
                     Toast.makeText(context, "you chose item " + checkedItemPosition, Toast.LENGTH_SHORT).show();
 
                 }
-            });
+            });*/
 
             return view;
         }else{
